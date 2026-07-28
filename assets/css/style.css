@@ -278,6 +278,7 @@ h1,h2,h3,h4,p{ margin: 0; }
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
+.services-grid > *{ min-width: 0; }
 .service-card{
   background: var(--surface);
   border: 1px solid var(--border);
@@ -319,6 +320,7 @@ h1,h2,h3,h4,p{ margin: 0; }
   align-items: flex-start;
   gap: 64px;
 }
+.stack-panel > *{ min-width: 0; }
 .stack-categories{
   display: flex;
   flex-direction: column;
@@ -567,6 +569,7 @@ h1,h2,h3,h4,p{ margin: 0; }
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
 }
+.projects-grid > *{ min-width: 0; }
 .project-card{
   background: var(--surface);
   border: 1px solid var(--border);
@@ -633,6 +636,7 @@ h1,h2,h3,h4,p{ margin: 0; }
   gap: 60px;
   align-items: start;
 }
+.contact-inner > *{ min-width: 0; }
 .contact-form{
   background: var(--surface);
   border: 1px solid var(--border);
