@@ -80,6 +80,43 @@
     }
   }
 
+  // Tech Stack category tabs
+  var catButtons = document.querySelectorAll('.stack-cat-btn');
+  if (catButtons.length) {
+    var revealPanel = function (panel) {
+      var items = panel.querySelectorAll('.stagger-item');
+      var alreadyRevealed = panel.dataset.revealed === 'true';
+      items.forEach(function (item, i) {
+        if (!alreadyRevealed) {
+          item.style.transitionDelay = (i * STAGGER_STEP) + 's';
+        }
+        item.classList.add('is-visible');
+      });
+      panel.dataset.revealed = 'true';
+    };
+
+    catButtons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (btn.classList.contains('is-active')) return;
+        var category = btn.dataset.category;
+
+        catButtons.forEach(function (b) {
+          b.classList.toggle('is-active', b === btn);
+          b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+        });
+
+        document.querySelectorAll('[data-category-panel]').forEach(function (panel) {
+          if (panel.dataset.categoryPanel === category) {
+            panel.hidden = false;
+            revealPanel(panel);
+          } else {
+            panel.hidden = true;
+          }
+        });
+      });
+    });
+  }
+
   // Contact form (client-side only, no backend wired up)
   var form = document.getElementById('contactForm');
   var status = document.getElementById('formStatus');
