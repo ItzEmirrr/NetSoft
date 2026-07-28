@@ -352,25 +352,24 @@ h1,h2,h3,h4,p{ margin: 0; }
   box-shadow: 0 0 0 1px rgba(47,155,255,0.2), 0 14px 30px -14px rgba(47,155,255,0.45);
 }
 .stack-card-icon{
-  display: flex;
-  transition: transform .3s var(--ease);
-}
-.stack-card:hover .stack-card-icon{
-  transform: scale(1.1);
-}
-.stack-badge{
   flex: none;
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--blue-soft);
   color: var(--blue);
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  transition: transform .3s var(--ease);
+}
+.stack-card-icon svg{
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+.stack-card:hover .stack-card-icon{
+  transform: scale(1.1);
 }
 .stack-card-label{
   font-size: 0.85rem;
