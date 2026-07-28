@@ -506,45 +506,41 @@ h1,h2,h3,h4,p{ margin: 0; }
 .marquee-group{
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding-right: 14px;
+  gap: 40px;
+  padding-right: 40px;
   flex: none;
 }
 .marquee-pill{
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 11px 20px;
-  border-radius: 999px;
-  border: 1px solid var(--border-strong);
-  background: var(--surface-2);
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--white);
-  white-space: nowrap;
-  filter: grayscale(1);
-  opacity: 0.5;
-  transition: filter .3s var(--ease), opacity .3s var(--ease), transform .3s var(--ease), border-color .3s var(--ease);
+  justify-content: center;
+  transition: transform .3s var(--ease);
 }
 .marquee-pill:hover{
-  filter: grayscale(0);
-  opacity: 1;
-  transform: scale(1.07);
-  border-color: var(--blue);
+  transform: scale(1.12);
   z-index: 1;
 }
 .pill-badge{
   flex: none;
-  width: 22px;
-  height: 22px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--blue-soft);
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
   color: var(--blue);
-  font-size: 0.68rem;
+  font-size: 1.4rem;
   font-weight: 700;
+  filter: grayscale(1);
+  opacity: 0.55;
+  transition: filter .3s var(--ease), opacity .3s var(--ease), border-color .3s var(--ease);
+}
+.marquee-pill:hover .pill-badge{
+  filter: grayscale(0);
+  opacity: 1;
+  border-color: var(--blue);
 }
 
 @keyframes marquee-scroll{
@@ -791,6 +787,6 @@ h1,h2,h3,h4,p{ margin: 0; }
   .hero-stats{ gap: 32px; }
   .services-grid{ grid-template-columns: 1fr; }
   .section{ padding: 84px 0; }
-  .marquee-pill{ padding: 9px 16px; font-size: 0.84rem; gap: 8px; }
-  .marquee-group{ gap: 10px; padding-right: 10px; }
+  .pill-badge{ width: 48px; height: 48px; font-size: 1.1rem; }
+  .marquee-group{ gap: 24px; padding-right: 24px; }
 }
