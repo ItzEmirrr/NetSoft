@@ -730,13 +730,21 @@ h1,h2,h3,h4,p{ margin: 0; }
 }
 
 @media (max-width: 620px){
-  .mosaic-grid{ width: 100%; }
-  .mosaic-row{
+  /* Flatten the brick rows into a single wrapping flow: each original
+     row is its own flex container, so wrapping within one row strands
+     leftover cards on their own centered line instead of reflowing
+     across the whole grid. Making rows display:contents dissolves
+     them so every card becomes a direct child of one flex-wrap grid. */
+  .mosaic-grid{
+    width: 100%;
+    flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+    gap: var(--mosaic-gap);
   }
-  .mosaic-row:not(:first-child){ margin-top: 0; }
-  .mosaic-row:nth-child(even){ transform: none; }
+  .mosaic-row{
+    display: contents;
+  }
   :root{ --mosaic-card: 92px; --mosaic-gap: 12px; }
   .stack-panel{
     flex-direction: column;
