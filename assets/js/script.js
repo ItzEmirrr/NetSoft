@@ -54,6 +54,32 @@
     revealEls.forEach(function (el) { el.classList.add('is-visible'); });
   }
 
+  // Staggered fade-in-up reveal for grids (e.g. Tech Stack cards)
+  var staggerGrids = document.querySelectorAll('.stagger-grid');
+  var STAGGER_STEP = 0.05; // seconds between each card
+  if (staggerGrids.length) {
+    if ('IntersectionObserver' in window) {
+      var staggerObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              var items = entry.target.querySelectorAll('.stagger-item');
+              items.forEach(function (item, i) {
+                item.style.transitionDelay = (i * STAGGER_STEP) + 's';
+                item.classList.add('is-visible');
+              });
+              staggerObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.2, rootMargin: '0px 0px -40px 0px' }
+      );
+      staggerGrids.forEach(function (grid) { staggerObserver.observe(grid); });
+    } else {
+      document.querySelectorAll('.stagger-item').forEach(function (el) { el.classList.add('is-visible'); });
+    }
+  }
+
   // Contact form (client-side only, no backend wired up)
   var form = document.getElementById('contactForm');
   var status = document.getElementById('formStatus');
