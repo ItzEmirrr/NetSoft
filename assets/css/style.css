@@ -393,7 +393,7 @@ h1,h2,h3,h4,p{ margin: 0; }
 .mosaic-grid{
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   margin: 0 auto;
   position: relative;
   z-index: 1;
