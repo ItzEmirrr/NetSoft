@@ -153,7 +153,7 @@
       }
 
       var nameField = document.getElementById('name');
-      var contactField = document.getElementById('contact');
+      var contactField = document.getElementById('contact-field');
       var messageField = document.getElementById('message');
 
       var payload = {
@@ -166,7 +166,7 @@
       setLoading(true);
       setStatus('Отправляем заявку...');
 
-      fetch('/api/send-lead', {
+      fetch('https://netsoft.kg/api/send-lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
