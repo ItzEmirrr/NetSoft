@@ -117,18 +117,86 @@
     });
   }
 
-  // Contact form (client-side only, no backend wired up)
+  // Contact form — реальная отправка на бэкенд FastAPI (/api/send-lead)
   var form = document.getElementById('contactForm');
   var status = document.getElementById('formStatus');
+  var submitBtn = document.getElementById('submitBtn');
+
   if (form) {
+    var isSubmitting = false;
+
+    // Текст кнопки по умолчанию (для восстановления после ошибки/успеха)
+    var defaultBtnText = submitBtn ? submitBtn.textContent : 'Discuss Project';
+
+    function setStatus(message, type) {
+      if (!status) return;
+      status.textContent = message;
+      status.classList.remove('is-error', 'is-success');
+      if (type) status.classList.add(type === 'error' ? 'is-error' : 'is-success');
+    }
+
+    function setLoading(loading) {
+      isSubmitting = loading;
+      if (!submitBtn) return;
+      submitBtn.disabled = loading;
+      submitBtn.textContent = loading ? 'Отправка...' : defaultBtnText;
+    }
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+
+      if (isSubmitting) return; // защита от повторного сабмита
+
       if (!form.checkValidity()) {
         form.reportValidity();
         return;
       }
-      status.textContent = 'Thanks! Your message has been received — we\'ll be in touch shortly.';
-      form.reset();
+
+      var nameField = document.getElementById('name');
+      var contactField = document.getElementById('contact');
+      var messageField = document.getElementById('message');
+
+      var payload = {
+        name: nameField ? nameField.value.trim() : '',
+        contact: contactField ? contactField.value.trim() : '',
+        // Бэкенд ждёт поле "text", а на фронте это <textarea name="message">
+        text: messageField ? messageField.value.trim() : ''
+      };
+
+      setLoading(true);
+      setStatus('Отправляем заявку...');
+
+      fetch('/api/send-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(function (response) {
+          if (!response.ok) {
+            // Пытаемся достать текст ошибки от FastAPI (Pydantic validation, 500 и т.д.)
+            return response
+              .json()
+              .catch(function () { return {}; })
+              .then(function (errBody) {
+                var detail = errBody && errBody.detail
+                  ? (Array.isArray(errBody.detail) ? errBody.detail.map(function (d) { return d.msg; }).join(', ') : errBody.detail)
+                  : ('HTTP ' + response.status);
+                throw new Error(detail);
+              });
+          }
+          return response.json().catch(function () { return {}; });
+        })
+        .then(function () {
+          setStatus('Спасибо! Ваша заявка получена — мы свяжемся с вами в ближайшее время.', 'success');
+          form.reset();
+        })
+        .catch(function (err) {
+          console.error('send-lead error:', err);
+          setStatus('Не удалось отправить заявку. Проверьте соединение и попробуйте ещё раз, либо напишите нам напрямую.', 'error');
+        })
+        .finally(function () {
+          setLoading(false);
+        });
     });
   }
 })();
